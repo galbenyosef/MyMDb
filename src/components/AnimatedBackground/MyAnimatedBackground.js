@@ -9,92 +9,34 @@ const MyAnimatedBackground = ({
   topOffset = 0,
   bottomOffset = 0,
 }) => {
-  const firstParticleUp = useRef(new Animated.Value(0)).current;
-  const secondParticleUp = useRef(new Animated.Value(0)).current;
-  const thirdParticleUp = useRef(new Animated.Value(0)).current;
+  const particles = [
+    useRef(new Animated.Value(0)).current,
+    useRef(new Animated.Value(0)).current,
+    useRef(new Animated.Value(0)).current,
+    useRef(new Animated.Value(0)).current,
+    useRef(new Animated.Value(0)).current,
+    useRef(new Animated.Value(0)).current,
+    useRef(new Animated.Value(0)).current,
+  ];
 
-  const firstParticleSlide = useRef(new Animated.Value(0)).current;
-  const secondParticleSlide = useRef(new Animated.Value(0)).current;
-  const thirdParticleSlide = useRef(new Animated.Value(0)).current;
-  const lastParticleSlide = useRef(new Animated.Value(0)).current;
-
-  const playFirstParticleUp = () => {
-    firstParticleUp.setValue(0);
-    Animated.timing(firstParticleUp, {
-      toValue: -windowHeight - 80 + topOffset,
-      duration: 3500,
-      useNativeDriver: true,
-    }).start(({finished}) => playFirstParticleUp());
-  };
-  const playSecondParticleUp = () => {
-    secondParticleUp.setValue(0);
-    Animated.timing(secondParticleUp, {
-      toValue: -windowHeight - 80 + topOffset,
-      duration: 2300,
-      useNativeDriver: true,
-    }).start(({finished}) => playSecondParticleUp());
-  };
-  const playThirdParticleUp = () => {
-    thirdParticleUp.setValue(0);
-    Animated.timing(thirdParticleUp, {
-      toValue: windowHeight + 80 - topOffset,
-      duration: 4600,
-      useNativeDriver: true,
-    }).start(({finished}) => playThirdParticleUp());
-  };
-
-  const playFirstParticleSlide = () => {
-    firstParticleSlide.setValue(0);
-    Animated.timing(firstParticleSlide, {
-      toValue: windowWidth + (80 * 2127) / 1024,
-      duration: 4600,
-      useNativeDriver: true,
-    }).start(({finished}) => playFirstParticleSlide());
-  };
-
-  const playSecondParticleSlide = () => {
-    secondParticleSlide.setValue(0);
-    Animated.timing(secondParticleSlide, {
-      toValue: -windowWidth - (80 * 2127) / 1024,
-      duration: 2800,
-      useNativeDriver: true,
-    }).start(({finished}) => playSecondParticleSlide());
-  };
-
-  const playThirdParticleSlide = () => {
-    thirdParticleSlide.setValue(0);
-    Animated.timing(thirdParticleSlide, {
-      toValue: -windowWidth - (80 * 2127) / 1024,
-      duration: 3700,
-      useNativeDriver: true,
-    }).start(({finished}) => playThirdParticleSlide());
-  };
-
-  const playLastParticleSlide = () => {
-    lastParticleSlide.setValue(0);
-    Animated.timing(lastParticleSlide, {
-      toValue: windowWidth + (80 * 2127) / 1024,
-      duration: 1900,
-      useNativeDriver: true,
-    }).start(({finished}) => playLastParticleSlide());
-  };
-
-  const play = (anim, toValue, duration) =>
-    Animated.timing(anim, {
+  const play = (anim, toValue, duration) => {
+    anim.setValue(0);
+    return Animated.timing(anim, {
       toValue,
       duration,
       useNativeDriver: true,
-    });
+    }).start(() => play(anim, toValue, duration));
+  };
 
   useEffect(() => {
     Animated.parallel([
-      playFirstParticleUp(),
-      playSecondParticleUp(),
-      playThirdParticleUp(),
-      playFirstParticleSlide(),
-      playSecondParticleSlide(),
-      playThirdParticleSlide(),
-      playLastParticleSlide(),
+      play(particles[0], -windowHeight - 80 + topOffset, 3500),
+      play(particles[1], -windowHeight - 80 + topOffset, 2300),
+      play(particles[2], windowHeight + 80 - topOffset, 4600),
+      play(particles[3], windowWidth + (80 * 2127) / 1024, 4600),
+      play(particles[4], -windowWidth - (80 * 2127) / 1024, 2800),
+      play(particles[5], -windowWidth - (80 * 2127) / 1024, 3700),
+      play(particles[6], windowWidth + (80 * 2127) / 1024, 1900),
     ]).start(({finished}) => {});
   }, []);
 
@@ -108,7 +50,7 @@ const MyAnimatedBackground = ({
         resizeMode={'contain'}
         style={{
           ...styles.firstParticleUp,
-          transform: [{translateY: firstParticleUp}],
+          transform: [{translateY: particles[0]}],
         }}
       />
       <Animated.Image
@@ -116,7 +58,7 @@ const MyAnimatedBackground = ({
         resizeMode={'contain'}
         style={{
           ...styles.secondParticleUp,
-          transform: [{translateY: secondParticleUp}],
+          transform: [{translateY: particles[1]}],
         }}
       />
 
@@ -125,7 +67,7 @@ const MyAnimatedBackground = ({
         resizeMode={'contain'}
         style={{
           ...styles.thirdParticleUp,
-          transform: [{translateY: thirdParticleUp}],
+          transform: [{translateY: particles[2]}],
         }}
       />
       <Animated.Image
@@ -133,7 +75,7 @@ const MyAnimatedBackground = ({
         resizeMode={'contain'}
         style={{
           ...styles.firstParticleSlide,
-          transform: [{translateX: firstParticleSlide}],
+          transform: [{translateX: particles[3]}],
         }}
       />
       <Animated.Image
@@ -141,7 +83,7 @@ const MyAnimatedBackground = ({
         resizeMode={'contain'}
         style={{
           ...styles.secondParticleSlide,
-          transform: [{translateX: secondParticleSlide}],
+          transform: [{translateX: particles[4]}],
         }}
       />
       <Animated.Image
@@ -149,7 +91,7 @@ const MyAnimatedBackground = ({
         resizeMode={'contain'}
         style={{
           ...styles.thirdParticleSlide,
-          transform: [{translateX: thirdParticleSlide}],
+          transform: [{translateX: particles[5]}],
         }}
       />
       <Animated.Image
@@ -157,7 +99,7 @@ const MyAnimatedBackground = ({
         resizeMode={'contain'}
         style={{
           ...styles.lastParticleSlide,
-          transform: [{translateX: lastParticleSlide}],
+          transform: [{translateX: particles[6]}],
         }}
       />
     </>
