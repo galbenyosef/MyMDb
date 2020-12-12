@@ -52,6 +52,7 @@ const MySearchBar = () => {
     return (
       <TouchableOpacity
         onPress={() => {
+          mySearchBarRef?.current.blur();
           dispatch(fetchMovies(query));
           scrollToTop();
         }}

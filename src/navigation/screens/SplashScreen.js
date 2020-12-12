@@ -5,18 +5,11 @@ import MyAnimatedBackground from '../../components/AnimatedBackground/MyAnimated
 
 import {normalize, windowHeight, windowWidth} from '../../utilities/Utilities';
 
-const slideAnimLength = 700;
+const animLength = 2000;
 
 const SplashScreen = ({navigation}) => {
-  const opacityAnim = useRef(new Animated.Value(0)).current;
-
-  const slideAnimations = [
-    useRef(new Animated.Value(0)).current,
-    useRef(new Animated.Value(0)).current,
-    useRef(new Animated.Value(0)).current,
-    useRef(new Animated.Value(0)).current,
-  ];
-
+  const logoOpacityAnim = useRef(new Animated.Value(0)).current;
+  const logoScaleAnim = useRef(new Animated.Value(0)).current;
   const authorScaleAnim = useRef(new Animated.Value(0)).current;
 
   const screenRotateAnim = useRef(new Animated.Value(0)).current;
@@ -45,13 +38,12 @@ const SplashScreen = ({navigation}) => {
     ]).start(({finished}) => navigation.dispatch(StackActions.replace('Home')));
 
   useEffect(() => {
-    play(opacityAnim, 1, slideAnimLength * 4).start();
     Animated.sequence([
-      play(slideAnimations[0], windowHeight / 2 + 72 / 2, slideAnimLength),
-      play(slideAnimations[1], -windowWidth, slideAnimLength),
-      play(slideAnimations[2], -windowHeight / 2 - 72 / 2, slideAnimLength),
-      play(slideAnimations[3], windowWidth, slideAnimLength),
-      play(authorScaleAnim, 1, 2000),
+      Animated.parallel([
+        play(logoOpacityAnim, 1, animLength),
+        play(logoScaleAnim, 1, animLength),
+      ]),
+      play(authorScaleAnim, 1, animLength),
     ]).start(({finished}) => playScreenSwitch());
   }, []);
 
@@ -70,49 +62,14 @@ const SplashScreen = ({navigation}) => {
         ],
       }}>
       <MyAnimatedBackground />
-      <Animated.View style={{...styles.textBackground, opacity: opacityAnim}} />
-      <Animated.Text
+      <Animated.View
         style={{
-          ...styles.movingLogo,
-          top: -72,
-          transform: [{translateY: slideAnimations[0]}],
+          ...styles.logoContainer,
+          opacity: logoOpacityAnim,
+          transform: [{scale: logoOpacityAnim}],
         }}>
-        My<Text style={{color: 'rgba(0,0,0,0)'}}>MDb</Text>
-      </Animated.Text>
-      <Animated.Text
-        style={{
-          ...styles.movingLogo,
-          ...styles.transparent,
-          top: windowHeight / 2 - 72 / 2,
-          left: windowWidth,
-          transform: [{translateX: slideAnimations[1]}],
-        }}>
-        My<Text style={{color: 'black'}}>M</Text>
-        <Text style={{color: 'rgba(0,0,0,0)'}}>Db</Text>
-      </Animated.Text>
-      <Animated.Text
-        style={{
-          ...styles.movingLogo,
-          ...styles.transparent,
-          bottom: -72,
-          transform: [{translateY: slideAnimations[2]}],
-        }}>
-        My<Text style={styles.transparent}>M</Text>
-        <Text style={{color: 'black'}}>D</Text>
-        <Text style={styles.transparent}>b</Text>
-      </Animated.Text>
-      <Animated.Text
-        style={{
-          ...styles.movingLogo,
-          ...styles.transparent,
-          top: windowHeight / 2 - 72 / 2,
-          left: -windowWidth,
-          transform: [{translateX: slideAnimations[3]}],
-        }}>
-        My<Text style={styles.transparent}>M</Text>
-        <Text style={styles.transparent}>D</Text>
-        <Text style={{color: 'black'}}>b</Text>
-      </Animated.Text>
+        <Text style={styles.logoText}>MyMDB</Text>
+      </Animated.View>
 
       <Animated.Text
         style={{
@@ -133,22 +90,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  textBackground: {
+  logoContainer: {
     width: 5 * normalize(72),
     borderRadius: normalize(20),
     backgroundColor: 'rgb(230, 185, 30)',
     height: normalize(120),
     borderWidth: normalize(8),
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  movingLogo: {
-    position: 'absolute',
-    width: '100%',
-    textAlign: 'center',
-    fontWeight: 'bold',
-    fontSize: 72,
-    lineHeight: 72,
-    zIndex: 1,
-  },
+  logoText: {fontSize: normalize(34)},
   scalingAuthorName: {
     position: 'absolute',
     bottom: 0,
