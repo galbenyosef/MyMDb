@@ -7,7 +7,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {setAlert} from '../../redux/actions/Actions';
+import {setAlert} from '../../redux/actions/GlobalActions';
 
 const MyDialogModal = () => {
   const alertMessage = useSelector((state) => state.alertMessage);

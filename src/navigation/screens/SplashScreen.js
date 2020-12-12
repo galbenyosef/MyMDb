@@ -3,7 +3,9 @@ import {StyleSheet, Animated, Text, Easing} from 'react-native';
 import {StackActions} from '@react-navigation/native';
 import MyAnimatedBackground from '../../components/AnimatedBackground/MyAnimatedBackground';
 
-import {windowHeight, windowWidth} from '../../utilities/Utilities';
+import {normalize, windowHeight, windowWidth} from '../../utilities/Utilities';
+
+const slideAnimLength = 700;
 
 const SplashScreen = ({navigation}) => {
   const opacityAnim = useRef(new Animated.Value(0)).current;
@@ -43,12 +45,12 @@ const SplashScreen = ({navigation}) => {
     ]).start(({finished}) => navigation.dispatch(StackActions.replace('Home')));
 
   useEffect(() => {
-    play(opacityAnim, 1, 700 * 4).start();
+    play(opacityAnim, 1, slideAnimLength * 4).start();
     Animated.sequence([
-      play(slideAnimations[0], windowHeight / 2 + 72 / 2, 700),
-      play(slideAnimations[1], -windowWidth, 700),
-      play(slideAnimations[2], -windowHeight / 2 - 72 / 2, 700),
-      play(slideAnimations[3], windowWidth, 700),
+      play(slideAnimations[0], windowHeight / 2 + 72 / 2, slideAnimLength),
+      play(slideAnimations[1], -windowWidth, slideAnimLength),
+      play(slideAnimations[2], -windowHeight / 2 - 72 / 2, slideAnimLength),
+      play(slideAnimations[3], windowWidth, slideAnimLength),
       play(authorScaleAnim, 1, 2000),
     ]).start(({finished}) => playScreenSwitch());
   }, []);
@@ -132,11 +134,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textBackground: {
-    width: 5 * 72,
-    borderRadius: 20,
+    width: 5 * normalize(72),
+    borderRadius: normalize(20),
     backgroundColor: 'rgb(230, 185, 30)',
-    height: 120,
-    borderWidth: 8,
+    height: normalize(120),
+    borderWidth: normalize(8),
   },
   movingLogo: {
     position: 'absolute',
@@ -153,8 +155,8 @@ const styles = StyleSheet.create({
     left: 0,
     width: '100%',
     textAlign: 'center',
-    fontSize: 32,
-    height: 100,
+    fontSize: normalize(32),
+    height: normalize(100),
     zIndex: 1,
   },
   transparent: {color: 'rgba(0,0,0,0)'},

@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useRef} from 'react';
+import React, {useRef} from 'react';
 import {SearchBar} from 'react-native-elements';
 import {Icon} from 'react-native-elements';
 import {
@@ -8,70 +8,63 @@ import {
   View,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-  onClear,
-  onSearchChange,
-  fetchMovies,
-} from '../../redux/actions/Actions';
+import {fetchMovies} from '../../redux/actions/SearchActions';
+import {onClear, onSearchChange} from '../../redux/actions/SearchActions';
+import {normalize} from '../../utilities/Utilities';
+
+const iconSize = normalize(50);
+export const searchBarHeight = 70;
 
 const MySearchBar = () => {
   const mySearchBarRef = useRef(null);
   const query = useSelector((state) => state.query);
   const loading = useSelector((state) => state.loading);
   const alertMessage = useSelector((state) => state.alertMessage);
+  const scrollToTop = useSelector((state) => state.scrollToTop);
   const dispatch = useDispatch();
 
-  const ClearIcon = useMemo(
-    () => (
-      <TouchableOpacity
-        style={styles.searchBarIcons}
-        onPress={() => {
-          if (!loading) {
-            dispatch(onClear());
-            mySearchBarRef?.current.clear();
-          }
-        }}>
-        <Icon name="cancel" color={'rgba(244,0,0,1)'} size={50} />
-      </TouchableOpacity>
-    ),
-    [query, loading, dispatch],
+  const ClearIcon = () => (
+    <TouchableOpacity
+      style={styles.searchBarIcons}
+      onPress={() => {
+        if (!loading) {
+          dispatch(onClear());
+          mySearchBarRef?.current.clear();
+        }
+      }}>
+      <Icon name="cancel" color={'red'} size={iconSize} />
+    </TouchableOpacity>
   );
 
-  const SearchIcon = useMemo(
-    () => () => {
-      if (loading) {
-        return <ActivityIndicator size={50} color="#0000ff" />;
-      } else if (alertMessage) {
-        return (
-          <Icon
-            type={'feather'}
-            name="alert-triangle"
-            size={50}
-            color={'black'}
-          />
-        );
-      }
+  const SearchIcon = () => {
+    if (loading) {
+      return <ActivityIndicator size={iconSize} color="blue" />;
+    } else if (alertMessage) {
       return (
-        <TouchableOpacity
-          onPress={() => dispatch(fetchMovies(query))}
-          disabled={!query}
-          style={styles.searchBarIcons}>
-          <Icon
-            color={query ? 'rgba(0,0,0,1)' : 'rgba(0,0,0,0.3)'}
-            name="search"
-            size={50}
-          />
-        </TouchableOpacity>
+        <Icon
+          type={'feather'}
+          name="alert-triangle"
+          size={iconSize}
+          color={'black'}
+        />
       );
-    },
-    [loading, query, dispatch, alertMessage],
-  );
-
-  /*
-  useEffect(() => {
-    mySearchBarRef && mySearchBarRef.current.blur();
-  }, [mySearchBarRef, loading]);
-*/
+    }
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          dispatch(fetchMovies(query));
+          scrollToTop();
+        }}
+        disabled={!query}
+        style={styles.searchBarIcons}>
+        <Icon
+          color={query ? 'black' : 'rgba(0,0,0,0.3)'}
+          name="search"
+          size={iconSize}
+        />
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -86,7 +79,7 @@ const MySearchBar = () => {
         inputStyle={styles.input}
         autoFocus={true}
         ref={mySearchBarRef}
-        rightIconContainerStyle={{flex: 0.2, marginRight: 0}}
+        rightIconContainerStyle={styles.rightIconSearchBarContainer}
         onChangeText={(txt) => dispatch(onSearchChange(txt))}
         value={query}
       />
@@ -101,7 +94,7 @@ const styles = StyleSheet.create({
   },
   searchBarContainer: {
     width: '100%',
-    height: 70,
+    height: searchBarHeight,
     justifyContent: 'center',
     borderBottomWidth: 1,
     paddingTop: 0,
@@ -111,15 +104,20 @@ const styles = StyleSheet.create({
     flex: 0.2,
     marginLeft: 0,
   },
+  rightIconSearchBarContainer: {flex: 0.2, marginRight: 0},
   input: {
     flex: 0.6,
-    fontSize: 26,
+    fontSize: normalize(26),
     marginLeft: 0,
     marginRight: 0,
     borderRadius: 10,
     backgroundColor: 'rgba(0,0,0,0.04)',
   },
-  searchBarIcons: {width: '100%', justifyContent: 'center', height: 70},
+  searchBarIcons: {
+    width: '100%',
+    justifyContent: 'center',
+    height: searchBarHeight,
+  },
 });
 
 export default MySearchBar;

@@ -3,41 +3,54 @@ import {StyleSheet, View, FlatList} from 'react-native';
 import MyAnimatedBackground from '../../components/AnimatedBackground/MyAnimatedBackground';
 import {useDispatch, useSelector} from 'react-redux';
 import {scrollToTop} from '../../utilities/Utilities';
-import {fetchMovies, setPage} from '../../redux/actions/Actions';
-import {useNavigation} from '@react-navigation/native';
+import {setPage, setScrollToTopFn} from '../../redux/actions/ListActions';
 import MyListItem from './MyListItem';
 import {StackActions} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
+import {fetchMovies} from '../../redux/actions/SearchActions';
+import {useHeaderHeight} from '@react-navigation/stack';
+import {searchBarHeight} from '../SearchBar/MySearchBar';
 
 const MyList = (props) => {
   const movies = useSelector((state) => state.movies);
   const page = useSelector((state) => state.page);
   const currentMoviesCount = useSelector((state) => state.currentMoviesCount);
   const totalMoviesCount = useSelector((state) => state.totalMoviesCount);
-  const moveToTop = useSelector((state) => state.moveToTop);
-  const navigation = useNavigation();
-
+  const loading = useSelector((state) => state.loading);
   const listRef = useRef(null);
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
+  const headerHeight = useHeaderHeight();
+
+  useEffect(() => {
+    dispatch(setScrollToTopFn(() => scrollToTop(listRef)));
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (page > 1) {
+      /*
+      console.log('moving to page ' + page);
+*/
+      dispatch(fetchMovies(null, page));
+    }
+  }, [dispatch, page]);
+
+  const onEndReached = () => {
+    if (currentMoviesCount < totalMoviesCount && !loading) {
+      dispatch(setPage(page + 1));
+    }
+  };
+
+  /*
+  console.log('List Rendered', currentMoviesCount, totalMoviesCount);
+*/
   const onItemPress = useCallback(
     (imdbID) => {
       navigation.dispatch(StackActions.push('Details', {imdbID}));
     },
     [navigation],
   );
-
-  useEffect(() => {
-    scrollToTop(listRef);
-  }, [moveToTop, listRef]);
-
-  useEffect(() => {
-    if (page > 1) {
-      console.log('moving to page ' + page);
-      dispatch(fetchMovies(null, page));
-    }
-  }, [dispatch, page]);
-
-  console.log('List Rendered');
 
   return (
     <View style={styles.container}>
@@ -46,21 +59,22 @@ const MyList = (props) => {
         style={styles.list}
         data={movies}
         keyExtractor={({imdbID}) => imdbID}
-        renderItem={(props) => (
-          <MyListItem {...props} onItemPress={onItemPress} />
+        renderItem={({item, index}) => (
+          <MyListItem
+            Title={item.Title}
+            Poster={item.Poster}
+            Year={item.Year}
+            index={index}
+            onItemPress={() => onItemPress(item.imdbID)}
+          />
         )}
         keyboardShouldPersistTaps={'handled'}
         ref={listRef}
-        onEndReachedThreshold={100}
-        onEndReached={() => {
-          if (currentMoviesCount < totalMoviesCount) {
-            dispatch(setPage(page + 1));
-          }
-        }}
+        onEndReached={onEndReached}
       />
       <MyAnimatedBackground
         active={!movies?.length}
-        topOffset={140}
+        topOffset={headerHeight + searchBarHeight}
         bottomOffset={0}
       />
     </View>

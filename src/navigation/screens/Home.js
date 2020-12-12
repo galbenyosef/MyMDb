@@ -6,7 +6,9 @@ import MyList from '../../components/List/MyList';
 const Home = (props) => {
   const screenRotateAnim = useRef(new Animated.Value(0)).current;
   const screenScaleAnim = useRef(new Animated.Value(0)).current;
+  /*
   console.log('Home Rendered');
+*/
 
   useEffect(() => {
     Animated.parallel([

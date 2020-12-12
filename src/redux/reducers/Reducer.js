@@ -6,6 +6,7 @@ import {
   SET_PAGE,
   CLEAR_ALL,
   SET_SELECTED_MOVIE,
+  SET_SCROLL_FN,
 } from '../actions/ActionTypes';
 
 const INITIAL_STATE = {
@@ -42,13 +43,14 @@ export default (state = INITIAL_STATE, action) => {
       if (concat) {
         return {
           ...state,
-          current: state.currentMoviesCount + currentMoviesCount,
+          currentMoviesCount: state.currentMoviesCount + currentMoviesCount,
           totalMoviesCount,
           movies: state.movies.concat(movies),
         };
       }
       return {
         ...state,
+        page: 1,
         currentMoviesCount,
         totalMoviesCount,
         movies,
@@ -69,6 +71,10 @@ export default (state = INITIAL_STATE, action) => {
     case SET_SELECTED_MOVIE: {
       const {selectedMovie} = payload;
       return {...state, selectedMovie};
+    }
+    case SET_SCROLL_FN: {
+      const {fn} = payload;
+      return {...state, scrollToTop: fn};
     }
     default:
       return state;

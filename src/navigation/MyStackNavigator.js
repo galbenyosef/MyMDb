@@ -4,8 +4,8 @@ import {NavigationContainer} from '@react-navigation/native';
 import Home from './screens/Home';
 import Details from './screens/Details';
 import SplashScreen from './screens/SplashScreen';
-import {TouchableOpacity} from 'react-native';
-import {Icon} from 'react-native-elements';
+import MyBackButton from '../components/BackButton/BackButton';
+import {normalize} from '../utilities/Utilities';
 
 const Stack = createStackNavigator();
 
@@ -13,39 +13,16 @@ const MyStackNavigator = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        screenOptions={({navigation, route: {name}}) => ({
-          headerStyle: {
-            backgroundColor: 'gold',
-            elevation: 0,
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontSize: 28,
-            color: 'black',
-          },
-          headerTitleAlign: 'center',
-        })}
+        screenOptions={screenOptions}
         initialRouteName="SplashScreen">
         <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
+          options={splashScreenOptions}
           name="SplashScreen"
           component={SplashScreen}
         />
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen
-          options={({navigation, route}) => ({
-            headerLeft: () => (
-              <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Icon
-                  style={{margin: 0, height: 70}}
-                  size={70}
-                  name="arrow-left"
-                />
-              </TouchableOpacity>
-            ),
-          })}
+          options={detailsScreenOptions}
           name="Details"
           component={Details}
         />
@@ -53,5 +30,28 @@ const MyStackNavigator = () => {
     </NavigationContainer>
   );
 };
+
+const screenOptions = {
+  headerStyle: {
+    backgroundColor: 'gold',
+    elevation: 0,
+    height: normalize(60),
+  },
+  safeAreaInsets: {top: 0, bottom: 0},
+  headerTintColor: '#fff',
+  headerTitleStyle: {
+    fontSize: normalize(30),
+    color: 'black',
+  },
+  headerTitleAlign: 'center',
+};
+
+const splashScreenOptions = {
+  headerShown: false,
+};
+
+const detailsScreenOptions = () => ({
+  headerLeft: () => <MyBackButton />,
+});
 
 export default MyStackNavigator;

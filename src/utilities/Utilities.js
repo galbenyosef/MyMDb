@@ -1,4 +1,4 @@
-import {Dimensions, StatusBar} from 'react-native';
+import {Dimensions, StatusBar, Platform, PixelRatio} from 'react-native';
 import imdbLogo from '../../assets/imdb_logo.png';
 
 export const API_URL = 'http://www.omdbapi.com/';
@@ -14,7 +14,15 @@ export const windowWidth = Dimensions.get('window').width;
 export const scrollToTop = (listRef) =>
   listRef?.current?.scrollToOffset({animated: true, offset: 0});
 
-export const isEmptyObject = (obj) =>
-  obj && typeof obj === 'object' && !Object.keys(obj).length;
+const scale = windowWidth / 480;
+
+export function normalize(size) {
+  const newSize = size * scale;
+  if (Platform.OS === 'ios') {
+    return Math.round(PixelRatio.roundToNearestPixel(newSize));
+  } else {
+    return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 2;
+  }
+}
 
 export const getLogo = () => imdbLogo;

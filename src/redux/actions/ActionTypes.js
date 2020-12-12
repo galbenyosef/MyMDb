@@ -5,3 +5,4 @@ export const SET_ALERT = 'SET_ALERT';
 export const SET_PAGE = 'SET_PAGE';
 export const CLEAR_ALL = 'CLEAR_ALL';
 export const SET_SELECTED_MOVIE = 'SET_SELECTED_MOVIE';
+export const SET_SCROLL_FN = 'SET_SCROLL_FN';
