@@ -2,7 +2,7 @@
 
 React Native Application exercise (eWave)
 
-Presents movie information by search from omdbapi
+Presents movies from omdbapi by title search
 
 Screens
 - [x] Animated SplashScreen\n
