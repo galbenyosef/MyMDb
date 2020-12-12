@@ -121,19 +121,19 @@ const Details = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {flex: 1, alignItems: 'center', padding: 20},
+  container: {flex: 1, alignItems: 'center', padding: normalize(20)},
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  titleContainer: {paddingBottom: 20, justifyContent: 'center'},
+  titleContainer: {paddingBottom: normalize(20), justifyContent: 'center'},
   titleText: {
     fontSize: normalize(30),
     fontWeight: 'bold',
     textDecorationLine: 'underline',
   },
-  image: {flex: 1, width: '100%', marginBottom: 20},
+  image: {flex: 1, width: '100%', marginBottom: normalize(20)},
   plotText: {fontSize: normalize(20)},
   infoContainer: {
     width: '100%',
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
   infoTopView: {
     flexDirection: 'row',
     justifyContent: 'center',
-    paddingTop: 20,
+    paddingTop: normalize(20),
   },
   rankingContainer: {
     flexDirection: 'row',
@@ -156,12 +156,12 @@ const styles = StyleSheet.create({
   rankingTextActual: {fontSize: normalize(30), fontWeight: 'bold'},
   rankingTextTotal: {fontSize: normalize(20)},
   rankingTotalVotes: {fontSize: normalize(18)},
-  rankingContainerSpacer: {width: 25},
+  rankingContainerSpacer: {width: normalize(25)},
   imdbLogo: {height: normalize(80), width: normalize(160)},
   infoRankingView: {
     flexDirection: 'row',
     justifyContent: 'center',
-    paddingTop: 20,
+    paddingTop: normalize(20),
   },
   infoDetailsViewColumn: {
     flex: 1 / 3,

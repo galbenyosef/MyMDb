@@ -21,7 +21,7 @@ const MyListItem = React.memo(
           backgroundColor: index % 2 ? 'black' : 'grey',
         }}>
         <FastImage
-          resizeMode={FastImage.resizeMode.contain}
+          resizeMode={FastImage.resizeMode.stretch}
           source={{uri: Poster !== 'N/A' ? Poster : NO_IMAGE_URL}}
           style={styles.image}
         />
