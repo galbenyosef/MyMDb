@@ -5,7 +5,7 @@ React Native Application exercise (eWave)
 Presents movies from omdbapi by title search
 
 Screens
-- [x] Animated SplashScreen\n
+- [x] Animated SplashScreen
 - [x] Animated Background
 - [x] Home Screen
 - [x] Details Screen
