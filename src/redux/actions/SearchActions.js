@@ -17,11 +17,10 @@ export const setQueryResult = (
   payload: {movies, currentMoviesCount, totalMoviesCount, concat},
 });
 
-export const fetchMovies = (
-  query = '',
-  page = 1,
-  scrollToTop = () => {},
-) => async (dispatch, getState) => {
+export const fetchMovies = (query = '', page = 1) => async (
+  dispatch,
+  getState,
+) => {
   try {
     dispatch(setLoading(true));
 

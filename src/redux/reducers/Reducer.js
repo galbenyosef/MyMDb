@@ -18,8 +18,6 @@ const INITIAL_STATE = {
   page: 1,
   currentMoviesCount: 0,
   totalMoviesCount: 0,
-  //list handling
-  moveToTop: 0,
   //selected list item
   selectedMovie: null,
   //feedbacks
@@ -54,7 +52,6 @@ export default (state = INITIAL_STATE, action) => {
         currentMoviesCount,
         totalMoviesCount,
         movies,
-        moveToTop: !state.moveToTop,
       };
     }
     case CLEAR_ALL: {
