@@ -11,8 +11,8 @@ import {StackActions} from '@react-navigation/native';
 const MyList = (props) => {
   const movies = useSelector((state) => state.movies);
   const page = useSelector((state) => state.page);
-  const current = useSelector((state) => state.current);
-  const total = useSelector((state) => state.total);
+  const currentMoviesCount = useSelector((state) => state.currentMoviesCount);
+  const totalMoviesCount = useSelector((state) => state.totalMoviesCount);
   const moveToTop = useSelector((state) => state.moveToTop);
   const navigation = useNavigation();
 
@@ -32,9 +32,7 @@ const MyList = (props) => {
 
   useEffect(() => {
     if (page > 1) {
-      /*
       console.log('moving to page ' + page);
-*/
       dispatch(fetchMovies(null, page));
     }
   }, [dispatch, page]);
@@ -53,9 +51,9 @@ const MyList = (props) => {
         )}
         keyboardShouldPersistTaps={'handled'}
         ref={listRef}
-        onEndReachedThreshold={0}
+        onEndReachedThreshold={100}
         onEndReached={() => {
-          if (current < total) {
+          if (currentMoviesCount < totalMoviesCount) {
             dispatch(setPage(page + 1));
           }
         }}

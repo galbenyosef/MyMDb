@@ -31,12 +31,12 @@ export const onSearchChange = (query = '') => ({
 
 export const setQueryResult = (
   movies = [],
-  current = 0,
-  total = 0,
+  currentMoviesCount = 0,
+  totalMoviesCount = 0,
   concat = false,
 ) => ({
   type: SET_QUERY_RESULT,
-  payload: {movies, current, total, concat},
+  payload: {movies, currentMoviesCount, totalMoviesCount, concat},
 });
 
 const setSelectedMovie = (movie) => ({

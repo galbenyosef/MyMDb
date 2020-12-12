@@ -25,11 +25,11 @@ const MySearchBar = () => {
     () => (
       <TouchableOpacity
         style={styles.searchBarIcons}
-        onPress={() => dispatch(onClear())}>
+        onPress={() => !loading && dispatch(onClear())}>
         <Icon name="cancel" size={50} />
       </TouchableOpacity>
     ),
-    [dispatch],
+    [loading, dispatch],
   );
 
   const SearchIcon = useMemo(
