@@ -1,6 +1,6 @@
 import React, {useRef, useEffect} from 'react';
 import {StyleSheet, Animated, Dimensions, StatusBar} from 'react-native';
-import {getLogo} from '../../utilities/Utilities';
+import {getLogo, windowHeight, windowWidth} from '../../utilities/Utilities';
 
 const StatusBarHeight = StatusBar.currentHeight;
 
@@ -9,9 +9,6 @@ const MyAnimatedBackground = ({
   topOffset = 0,
   bottomOffset = 0,
 }) => {
-  const windowWidth = Dimensions.get('window').width;
-  const windowHeight = Dimensions.get('window').height - StatusBarHeight;
-
   const firstParticleUp = useRef(new Animated.Value(0)).current;
   const secondParticleUp = useRef(new Animated.Value(0)).current;
   const thirdParticleUp = useRef(new Animated.Value(0)).current;
@@ -110,103 +107,126 @@ const MyAnimatedBackground = ({
         source={getLogo()}
         resizeMode={'contain'}
         style={{
+          ...styles.firstParticleUp,
           transform: [{translateY: firstParticleUp}],
-          bottom: -80,
-          left: 20,
-          position: 'absolute',
-          height: 80,
-          width: (80 * 2127) / 1024,
-          zIndex: -1,
-          opacity: 0.3,
         }}
       />
       <Animated.Image
         source={getLogo()}
         resizeMode={'contain'}
         style={{
+          ...styles.secondParticleUp,
           transform: [{translateY: secondParticleUp}],
-          bottom: -80,
-          right: 20,
-          position: 'absolute',
-          height: 80,
-          width: (80 * 2127) / 1024,
-          zIndex: -1,
-          opacity: 0.3,
         }}
       />
+
       <Animated.Image
         source={getLogo()}
         resizeMode={'contain'}
         style={{
+          ...styles.thirdParticleUp,
           transform: [{translateY: thirdParticleUp}],
-          top: -80,
-          position: 'absolute',
-          height: 80,
-          width: (80 * 2127) / 1024,
-          zIndex: -1,
-          opacity: 0.3,
         }}
       />
       <Animated.Image
         source={getLogo()}
         resizeMode={'contain'}
         style={{
+          ...styles.firstParticleSlide,
           transform: [{translateX: firstParticleSlide}],
-          left: -(80 * 2127) / 1024,
-          top: 80 * 1,
-          position: 'absolute',
-          height: 80,
-          width: (80 * 2127) / 1024,
-          zIndex: -1,
-          opacity: 0.3,
         }}
       />
       <Animated.Image
         source={getLogo()}
         resizeMode={'contain'}
         style={{
+          ...styles.secondParticleSlide,
           transform: [{translateX: secondParticleSlide}],
-          right: -(80 * 2127) / 1024,
-          top: 80 * 3,
-          position: 'absolute',
-          height: 80,
-          width: (80 * 2127) / 1024,
-          zIndex: -1,
-          opacity: 0.3,
         }}
       />
       <Animated.Image
         source={getLogo()}
         resizeMode={'contain'}
         style={{
+          ...styles.thirdParticleSlide,
           transform: [{translateX: thirdParticleSlide}],
-          right: -(80 * 2127) / 1024,
-          bottom: 80 * 3,
-          position: 'absolute',
-          height: 80,
-          width: (80 * 2127) / 1024,
-          zIndex: -1,
-          opacity: 0.3,
         }}
       />
       <Animated.Image
         source={getLogo()}
         resizeMode={'contain'}
         style={{
+          ...styles.lastParticleSlide,
           transform: [{translateX: lastParticleSlide}],
-          bottom: 80,
-          left: -(80 * 2127) / 1024,
-          position: 'absolute',
-          height: 80,
-          width: (80 * 2127) / 1024,
-          zIndex: -1,
-          opacity: 0.3,
         }}
       />
     </>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  firstParticleUp: {
+    bottom: -80,
+    left: 20,
+    position: 'absolute',
+    height: 80,
+    width: (80 * 2127) / 1024,
+    zIndex: -1,
+    opacity: 0.3,
+  },
+  secondParticleUp: {
+    bottom: -80,
+    right: 20,
+    position: 'absolute',
+    height: 80,
+    width: (80 * 2127) / 1024,
+    zIndex: -1,
+    opacity: 0.3,
+  },
+  thirdParticleUp: {
+    top: -80,
+    position: 'absolute',
+    height: 80,
+    width: (80 * 2127) / 1024,
+    zIndex: -1,
+    opacity: 0.3,
+  },
+  firstParticleSlide: {
+    left: -(80 * 2127) / 1024,
+    top: 80 * 1,
+    position: 'absolute',
+    height: 80,
+    width: (80 * 2127) / 1024,
+    zIndex: -1,
+    opacity: 0.3,
+  },
+  secondParticleSlide: {
+    right: -(80 * 2127) / 1024,
+    top: 80 * 3,
+    position: 'absolute',
+    height: 80,
+    width: (80 * 2127) / 1024,
+    zIndex: -1,
+    opacity: 0.3,
+  },
+  thirdParticleSlide: {
+    right: -(80 * 2127) / 1024,
+    bottom: 80 * 3,
+    position: 'absolute',
+    height: 80,
+    width: (80 * 2127) / 1024,
+    zIndex: -1,
+    opacity: 0.3,
+  },
+  lastParticleSlide: {
+    bottom: 80,
+    left: -(80 * 2127) / 1024,
+    position: 'absolute',
+    height: 80,
+    width: (80 * 2127) / 1024,
+    zIndex: -1,
+    opacity: 0.3,
+  },
+});
 
 export default MyAnimatedBackground;
