@@ -21,5 +21,5 @@ Best Practices
 Images
 
 ![Splash](/assets/showcase/splash.png)
-![Home](https://github.com/galbenyosef/MyMDb/blob/main/assets/showcase/home.png)
-![Details](https://ibb.co/M7wgLp8)
+![Home](/assets/showcase/home.png)
+![Details](/assets/showcase/details.png)
