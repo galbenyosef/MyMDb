@@ -1,5 +1,5 @@
 import {Icon} from 'react-native-elements';
-import {TouchableOpacity} from 'react-native';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 
@@ -8,9 +8,16 @@ const MyBackButton = () => {
 
   return (
     <TouchableOpacity onPress={() => navigation.goBack()}>
-      <Icon style={{margin: 0, height: 70}} size={70} name="arrow-left" />
+      <Icon style={styles.icon} size={70} name="arrow-left" />
     </TouchableOpacity>
   );
 };
+
+const styles = StyleSheet.create({
+  icon: {
+    margin: 0,
+    height: 70,
+  },
+});
 
 export default MyBackButton;
