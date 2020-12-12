@@ -43,9 +43,6 @@ export const fetchMovies = (query = '', page = 1) => async (
     // Handle Error Here
     console.error(err);
   } finally {
-    if (page == 1) {
-      scrollToTop();
-    }
     dispatch(setLoading(false));
   }
 };
