@@ -39,7 +39,7 @@ export const fetchMovies = (query = '', page = 1) => async (
       throw 'Response cannot be handled';
     }
   } catch (err) {
-    dispatch(setAlert(err));
+    dispatch(setAlert(err.toString()));
     dispatch(onClear());
     // Handle Error Here
     console.error(err);

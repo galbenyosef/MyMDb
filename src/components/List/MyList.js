@@ -42,9 +42,7 @@ const MyList = (props) => {
     }
   };
 
-  /*
   console.log('List Rendered', currentMoviesCount, totalMoviesCount);
-*/
   const onItemPress = useCallback(
     (imdbID) => {
       navigation.dispatch(StackActions.push('Details', {imdbID}));
