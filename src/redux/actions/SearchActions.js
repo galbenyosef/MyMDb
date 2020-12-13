@@ -40,6 +40,7 @@ export const fetchMovies = (query = '', page = 1) => async (
     }
   } catch (err) {
     dispatch(setAlert(err));
+    dispatch(onClear());
     // Handle Error Here
     console.error(err);
   } finally {
