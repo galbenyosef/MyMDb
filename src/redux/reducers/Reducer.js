@@ -55,7 +55,14 @@ export default (state = INITIAL_STATE, action) => {
       };
     }
     case CLEAR_ALL: {
-      return {...state, page: 1, current: 0, total: 0, movies: [], query: ''};
+      return {
+        ...state,
+        page: 1,
+        currentMoviesCount: 0,
+        totalMoviesCount: 0,
+        movies: [],
+        query: '',
+      };
     }
     case SET_LOADING: {
       const {status} = payload;
